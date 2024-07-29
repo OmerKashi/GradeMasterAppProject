@@ -17,20 +17,30 @@ namespace GradeMasterAPI.Controllers {
 
         [HttpPost("validateUserRole")]
         public IActionResult ValidateUserRole([FromBody] UserRoleValidationRequest request) {
-            if (request.Role == "student") {
+            if (request.Role.ToLower() == "student") {
+
                 var student = _studentsRepository.GetAllStudents().FirstOrDefault(s => s.Email == request.Email);
+                if (student.Password != request.Password) {
+                    student = null;
+                }
+                
                 return Ok(new { isValid = student != null });
-            } else if (request.Role == "teacher") {
+
+            } else if (request.Role.ToLower() == "teacher") {
                 var teacher = _teachersRepository.GetAllTeachers().FirstOrDefault(t => t.Email == request.Email);
+                if (teacher.Password != request.Password) {
+                    teacher = null;
+                }
                 return Ok(new { isValid = teacher != null });
             }
 
-            return BadRequest("Invalid role.");
+            return BadRequest("User do not exist.");
         }
     }
 
     public class UserRoleValidationRequest {
         public string Email { get; set; }
+        public string Password { get; set; }
         public string Role { get; set; }
     }
 }

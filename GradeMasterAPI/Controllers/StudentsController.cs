@@ -26,6 +26,18 @@ namespace GradeMasterAPI.Controllers{
             return await _context.Students.ToListAsync();
         }
 
+        //GET: api/Students/{email}
+        [HttpGet("{email}")]
+        public async Task<ActionResult<Student>> GetStudentByEmail(string _email) {
+            var student = await _context.Students.FindAsync(_email);
+
+            if (student == null) {
+                return NotFound();
+            }
+
+            return student;
+        }
+
         // GET: api/Students/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> GetStudent(int id) {
