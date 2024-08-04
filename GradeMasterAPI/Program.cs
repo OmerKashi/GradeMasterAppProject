@@ -1,6 +1,7 @@
 using GradeMasterAPI.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.Json.Serialization;
 
 public class Program {
     public static void Main(string[] args) {
@@ -15,7 +16,9 @@ public class Program {
         builder.Services.AddDbContext<GradeMasterDbContext>(options => {
             options.UseSqlServer(builder.Configuration.GetConnectionString("GradeMasterDB"));
         });
-
+        builder.Services.AddControllers().AddJsonOptions(options => {
+            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        });
         //builder.Services.AddAuthentication.AddJwtBearer(options => { })
 
         //builder.Services.AddSingleton<ICsvLodader, CsvLoader>();

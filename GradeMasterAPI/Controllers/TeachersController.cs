@@ -78,7 +78,7 @@ namespace GradeMasterAPI.Controllers{
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Teacher>> PostTeacher(TeacherDTO teacherDto){
-
+            //string hashedPassword = _pass
             //teacherDto.Id = _context.Entry();
             var teacher = new Teacher() {
                 Id = teacherDto.Id,
@@ -98,6 +98,8 @@ namespace GradeMasterAPI.Controllers{
             //body: teacher
             return CreatedAtAction("GetTeacher", new { id = teacher.Id }, teacher);
         }
+
+
 
         // DELETE: api/Teachers/5
         [HttpDelete("{id}")]

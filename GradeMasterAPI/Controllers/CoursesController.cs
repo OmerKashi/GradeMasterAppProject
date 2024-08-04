@@ -27,6 +27,18 @@ namespace GradeMasterAPI.Controllers{
             return await _context.Courses.ToListAsync();
         }
 
+        // GET: api/Courses/byTeacher/{id}
+        [HttpGet("byTeacher/{teacherId}")]
+        public async Task<ActionResult<IEnumerable<Course>>> GetCoursesByTeacher(int teacherId) {
+            var teacher = await _context.Teachers.FindAsync(teacherId);
+            if (teacher == null) {
+                return NotFound($"Teacher with ID {teacherId} not found.");
+            }
+
+            var courses = await _context.Courses.Where(c => c.TeacherId == teacherId).ToListAsync();
+            return Ok(courses);
+        }
+
         // GET: api/Courses/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Course>> GetCourse(int id) {
@@ -47,7 +59,8 @@ namespace GradeMasterAPI.Controllers{
             var course = new Course() { 
                 Id = courseDto.Id,
                 CourseName = courseDto.CourseName,
-                CourseDescription = courseDto.CourseDescription
+                CourseDescription = courseDto.CourseDescription,
+                TeacherId = courseDto.TeacherId
             };
 
             if (id != course.Id) {
@@ -70,11 +83,16 @@ namespace GradeMasterAPI.Controllers{
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Course>> PostCourse(CourseDTO courseDto) {
+            var teacher = await _context.Teachers.FindAsync(courseDto.TeacherId);
+            if (teacher == null) {
+                return BadRequest($"Teacher {courseDto.TeacherId} does not exist");
+            }
 
-            var course = new Course() {
-                Id = courseDto.Id,
+            var course = new Course {
+                //Id = courseDto.Id,
                 CourseName = courseDto.CourseName,
-                CourseDescription = courseDto.CourseDescription
+                CourseDescription = courseDto.CourseDescription,
+                TeacherId = courseDto.TeacherId
             };
 
             _context.Courses.Add(course);

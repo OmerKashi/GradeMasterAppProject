@@ -1,4 +1,6 @@
-﻿namespace GradeMasterAPI.DB.DbModules {
+﻿using System.Text.Json.Serialization;
+
+namespace GradeMasterAPI.DB.DbModules {
 
     public class Course {
         public int Id { get; set; }
@@ -8,6 +10,7 @@
 
 
         #region --Navigation Properties--
+        [JsonIgnore]
         public Teacher Teacher { get; set; }
         public ICollection<Exam> Exams { get; set; } = new List<Exam>();
         public ICollection<Assignment> Assignments { get; set; } = new List<Assignment>();
