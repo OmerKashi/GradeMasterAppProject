@@ -8,47 +8,52 @@ import {
   Alert,
   Card,
 } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-//Login
-const UserForm = ({ onLogin }) => {
-  //Send the func 'onLogin' to the component
 
+const UserForm = ({ onLogin }) => {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
     role: "",
   });
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCredentials({ ...credentials, [name]: value });
   };
 
-  // //Form Data
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [role, setRole] = useState("");
-  //
-
-  //Events
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (credentials.role === "teacher") {
+    const { email, password, role } = credentials;
+
+    if (!email || !password || !role) {
+      setError("All fields are required.");
+      return;
     }
-    if (credentials.role === "student") {
+
+    const loginError = await onLogin(email, password, role);
+    if (loginError) {
+      setError(loginError);
     }
   };
 
   return (
     <Container
       className="d-flex justify-content-center align-items-center"
-      style={{ height: "100vh" }}
+      style={{
+        height: "100vh",
+        backgroundColor: "lightblue",
+        borderRadius: "10px",
+      }}
     >
       <Row className="justify-content-md-center w-100">
         <Col md={6} lg={4}>
-          <Card className="p-4" style={{ minWidth: "300px" }}>
+          <Card
+            className="p-4"
+            style={{
+              minWidth: "300px",
+            }}
+          >
             <Card.Body>
               <h2 className="text-center mb-4">Log in</h2>
               <Form onSubmit={handleSubmit}>
@@ -58,6 +63,7 @@ const UserForm = ({ onLogin }) => {
                   <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="email"
+                    name="email"
                     placeholder="Enter your email"
                     value={credentials.email}
                     onChange={handleInputChange}
@@ -69,6 +75,7 @@ const UserForm = ({ onLogin }) => {
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
+                    name="password"
                     placeholder="Enter your password"
                     value={credentials.password}
                     onChange={handleInputChange}
@@ -80,6 +87,7 @@ const UserForm = ({ onLogin }) => {
                   <Form.Label>Role</Form.Label>
                   <Form.Control
                     as="select"
+                    name="role"
                     value={credentials.role}
                     onChange={handleInputChange}
                     required

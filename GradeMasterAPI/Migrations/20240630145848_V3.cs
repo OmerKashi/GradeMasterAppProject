@@ -2,14 +2,11 @@
 
 #nullable disable
 
-namespace GradeMasterAPI.Migrations
-{
+namespace GradeMasterAPI.Migrations {
     /// <inheritdoc />
-    public partial class V3 : Migration
-    {
+    public partial class V3 : Migration {
         /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.AddColumn<string>(
                 name: "Password",
                 table: "Students",
@@ -19,8 +16,7 @@ namespace GradeMasterAPI.Migrations
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropColumn(
                 name: "Password",
                 table: "Students");

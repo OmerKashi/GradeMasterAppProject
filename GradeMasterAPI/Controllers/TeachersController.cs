@@ -1,35 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using GradeMasterAPI.ApiModules;
 using GradeMasterAPI.DB;
 using GradeMasterAPI.DB.DbModules;
-using GradeMasterAPI.ApiModules;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace GradeMasterAPI.Controllers{
+namespace GradeMasterAPI.Controllers {
 
     [Route("api/[controller]")] // 'api/Teachers'
     [ApiController]
-    public class TeachersController : ControllerBase{
+    public class TeachersController : ControllerBase {
         private readonly GradeMasterDbContext _context;
 
         public TeachersController(GradeMasterDbContext context) {
             _context = context;
         }
 
-        
+
         [HttpGet("sorted")] //api/Teachers//sorted
-        public async Task<ActionResult<IEnumerable<Teacher>>> GetTeachersSortedByLastName(string sortedBy ="") {
+        public async Task<ActionResult<IEnumerable<Teacher>>> GetTeachersSortedByLastName(string sortedBy = "") {
             return await _context.Teachers.OrderBy(t => t.LastName).ToListAsync();
         }
 
         // GET: api/Teachers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Teacher>>> GetTeachers(){
+        public async Task<ActionResult<IEnumerable<Teacher>>> GetTeachers() {
             return await _context.Teachers.ToListAsync(); //SELECT SQL
         }
 
@@ -38,7 +32,7 @@ namespace GradeMasterAPI.Controllers{
         public async Task<ActionResult<Teacher>> GetTeacher(int id) {
             Teacher? teacher = await _context.Teachers.FindAsync(id); //SELECT WHERE
 
-            if (teacher == null){
+            if (teacher == null) {
                 return NotFound();
             }
 
@@ -59,16 +53,16 @@ namespace GradeMasterAPI.Controllers{
                 PhoneNumber = teacherDto.PhoneNumber
             };
 
-            if (id != teacher.Id){
+            if (id != teacher.Id) {
                 return BadRequest();
             }
 
             _context.Entry(teacher).State = EntityState.Modified;
 
-            try{
+            try {
                 await _context.SaveChangesAsync();
-            }catch (DbUpdateConcurrencyException){
-                if (!TeacherExists(id)){ return NotFound(); }else{ throw; }
+            } catch (DbUpdateConcurrencyException) {
+                if (!TeacherExists(id)) { return NotFound(); } else { throw; }
             }
 
             return NoContent(); //Response 204 - nothing happend 
@@ -77,7 +71,7 @@ namespace GradeMasterAPI.Controllers{
         // POST: api/Teachers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Teacher>> PostTeacher(TeacherDTO teacherDto){
+        public async Task<ActionResult<Teacher>> PostTeacher(TeacherDTO teacherDto) {
             //string hashedPassword = _pass
             //teacherDto.Id = _context.Entry();
             var teacher = new Teacher() {
@@ -103,7 +97,7 @@ namespace GradeMasterAPI.Controllers{
 
         // DELETE: api/Teachers/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTeacher(int id){
+        public async Task<IActionResult> DeleteTeacher(int id) {
             var teacher = await _context.Teachers.FindAsync(id);
 
             if (teacher == null) { return NotFound(); }

@@ -1,6 +1,4 @@
 ﻿using GradeMasterAPI.DB.DbModules;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace GradeMasterAPI.DB {

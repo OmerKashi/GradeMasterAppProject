@@ -1,23 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using GradeMasterAPI.ApiModules;
 using GradeMasterAPI.DB;
 using GradeMasterAPI.DB.DbModules;
-using GradeMasterAPI.ApiModules;
-using NuGet.DependencyResolver;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace GradeMasterAPI.Controllers{
+namespace GradeMasterAPI.Controllers {
 
     [Route("api/[controller]")]
     [ApiController]
     public class CoursesController : ControllerBase {
         private readonly GradeMasterDbContext _context;
 
-        public CoursesController(GradeMasterDbContext context){
+        public CoursesController(GradeMasterDbContext context) {
             _context = context;
         }
 
@@ -30,13 +24,43 @@ namespace GradeMasterAPI.Controllers{
         // GET: api/Courses/byTeacher/{id}
         [HttpGet("byTeacher/{teacherId}")]
         public async Task<ActionResult<IEnumerable<Course>>> GetCoursesByTeacher(int teacherId) {
-            var teacher = await _context.Teachers.FindAsync(teacherId);
+            /*var teacher = await _context.Teachers.FindAsync(teacherId);
             if (teacher == null) {
                 return NotFound($"Teacher with ID {teacherId} not found.");
             }
 
             var courses = await _context.Courses.Where(c => c.TeacherId == teacherId).ToListAsync();
+            return Ok(courses);*/
+
+            var teacher = await _context.Teachers.FindAsync(teacherId);
+
+            if (teacher == null) {
+                return NotFound($"Teacher with ID {teacherId} not found.");
+            }
+
+            var courses = await _context.Courses.Where(c => c.TeacherId == teacherId).Select( c=> new CourseDTO { Id = c.Id, CourseName = c.CourseName, CourseDescription = c.CourseDescription, TeacherId = c.TeacherId}).ToListAsync();
+            if (courses == null) {
+                return NotFound($"No courses were found for Teacher with ID {teacherId}.");
+            }
+
             return Ok(courses);
+        }
+
+        // GET: api/Courses/{courseId}/students
+        [HttpGet("{courseId}/students")]
+        public async Task<ActionResult<IEnumerable<Student>>> GetStudentsInCourse(int courseId) {
+            var course = await _context.Courses
+                .Include(c => c.Enrollments)
+                .ThenInclude(e => e.Student)
+                .FirstOrDefaultAsync(c => c.Id == courseId);
+
+            if (course == null) {
+                return NotFound("Course not found");
+            }
+
+            // Using HashSet to avoid duplicates, assuming Student entity has properly overridden Equals and GetHashCode methods
+            var uniqueStudents = new HashSet<Student>(course.Enrollments.Select(e => e.Student));
+            return Ok(uniqueStudents);
         }
 
         // GET: api/Courses/5
@@ -55,8 +79,8 @@ namespace GradeMasterAPI.Controllers{
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCourse(int id, CourseDTO courseDto) {
- 
-            var course = new Course() { 
+
+            var course = new Course() {
                 Id = courseDto.Id,
                 CourseName = courseDto.CourseName,
                 CourseDescription = courseDto.CourseDescription,
@@ -77,7 +101,7 @@ namespace GradeMasterAPI.Controllers{
 
             return NoContent(); //Response 204 - nothing happend 
 
-    }
+        }
 
         // POST: api/Courses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

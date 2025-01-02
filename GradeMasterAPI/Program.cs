@@ -1,6 +1,5 @@
 using GradeMasterAPI.DB;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json.Serialization;
 
 public class Program {
@@ -24,7 +23,7 @@ public class Program {
         //builder.Services.AddSingleton<ICsvLodader, CsvLoader>();
 
         // Enable CORS 
-        builder.Services.AddCors( options => {
+        builder.Services.AddCors(options => {
             options.AddPolicy("AllowAllOrigins",
                 builder => builder.AllowAnyOrigin()
                                   .AllowAnyMethod()

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using GradeMasterAPI.ApiModules;
 using GradeMasterAPI.DB;
 using GradeMasterAPI.DB.DbModules;
-using GradeMasterAPI.ApiModules;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
-namespace GradeMasterAPI.Controllers{
+namespace GradeMasterAPI.Controllers {
 
     [Route("api/[controller]")]
     [ApiController]
@@ -50,6 +45,21 @@ namespace GradeMasterAPI.Controllers{
             return student;
         }
 
+        // GET: api/Students?ids=1,2,3
+        [HttpGet("StudentsList")]
+        public async Task<ActionResult<IEnumerable<Student>>> GetStudentsById([FromQuery] List<int> ids) {
+            var students = await _context.Students
+                                         .Where(s => ids.Contains(s.Id))
+                                         .ToListAsync();
+
+            if (students == null || students.Count == 0) {
+                return NotFound();
+            }
+
+            return students;
+        }
+
+
         // PUT: api/Students/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -63,7 +73,8 @@ namespace GradeMasterAPI.Controllers{
                 Gender = studentDto.Gender,
                 Address = studentDto.Address,
                 EnrollmentDate = studentDto.EnrollmentDate,
-                DateOfBirth = studentDto.DateOfBirth
+                DateOfBirth = studentDto.DateOfBirth,
+                Password = studentDto.Password
             };
 
             if (id != student.Id) {
@@ -98,7 +109,8 @@ namespace GradeMasterAPI.Controllers{
                 Gender = studentDto.Gender,
                 Address = studentDto.Address,
                 EnrollmentDate = studentDto.EnrollmentDate,
-                DateOfBirth = studentDto.DateOfBirth
+                DateOfBirth = studentDto.DateOfBirth,
+                Password = studentDto.Password
             };
 
             _context.Students.Add(student);

@@ -15,7 +15,7 @@ namespace GradeMasterAPI.DB.DbModules {
         public ICollection<Exam> Exams { get; set; } = new List<Exam>();
         public ICollection<Assignment> Assignments { get; set; } = new List<Assignment>();
         public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
-        public ICollection<Attendence> Attendences { get; set; } = new List<Attendence>();
+        public ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
         public ICollection<Grades> FinalGrades { get; set; } = new List<Grades>();
 
         #endregion

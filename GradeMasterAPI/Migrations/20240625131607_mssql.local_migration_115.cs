@@ -2,20 +2,16 @@
 
 #nullable disable
 
-namespace GradeMasterAPI.Migrations
-{
+namespace GradeMasterAPI.Migrations {
     /// <inheritdoc />
-    public partial class mssqllocal_migration_115 : Migration
-    {
+    public partial class mssqllocal_migration_115 : Migration {
         /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        protected override void Up(MigrationBuilder migrationBuilder) {
 
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
 
         }
     }

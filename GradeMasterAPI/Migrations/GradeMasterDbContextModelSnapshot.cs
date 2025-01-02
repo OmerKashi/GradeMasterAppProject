@@ -17,7 +17,7 @@ namespace GradeMasterAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -34,11 +34,13 @@ namespace GradeMasterAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("PercentageOfTotalGrade")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -63,20 +65,18 @@ namespace GradeMasterAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Feedback")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FilePath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Grade")
-                        .HasColumnType("int");
+                    b.Property<float?>("Grade")
+                        .HasColumnType("real");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("SubmissionDate")
+                    b.Property<DateTime?>("SubmissionDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -88,7 +88,7 @@ namespace GradeMasterAPI.Migrations
                     b.ToTable("AssignmentSubmission");
                 });
 
-            modelBuilder.Entity("GradeMasterAPI.DB.DbModules.Attendence", b =>
+            modelBuilder.Entity("GradeMasterAPI.DB.DbModules.Attendance", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -126,7 +126,7 @@ namespace GradeMasterAPI.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("Attendence");
+                    b.ToTable("Attendance");
                 });
 
             modelBuilder.Entity("GradeMasterAPI.DB.DbModules.Course", b =>
@@ -260,8 +260,15 @@ namespace GradeMasterAPI.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ExamGrade")
+                        .HasColumnType("int");
+
                     b.Property<int>("FinalGrade")
                         .HasColumnType("int");
+
+                    b.Property<string>("GradeComponentPercentages")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -388,16 +395,16 @@ namespace GradeMasterAPI.Migrations
                     b.Navigation("StudentRef");
                 });
 
-            modelBuilder.Entity("GradeMasterAPI.DB.DbModules.Attendence", b =>
+            modelBuilder.Entity("GradeMasterAPI.DB.DbModules.Attendance", b =>
                 {
                     b.HasOne("GradeMasterAPI.DB.DbModules.Course", "CourseRef")
-                        .WithMany("Attendences")
+                        .WithMany("Attendances")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("GradeMasterAPI.DB.DbModules.Student", "StudentRef")
-                        .WithMany("Attendences")
+                        .WithMany("Attendances")
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -495,7 +502,7 @@ namespace GradeMasterAPI.Migrations
                 {
                     b.Navigation("Assignments");
 
-                    b.Navigation("Attendences");
+                    b.Navigation("Attendances");
 
                     b.Navigation("Enrollments");
 
@@ -513,7 +520,7 @@ namespace GradeMasterAPI.Migrations
                 {
                     b.Navigation("AssignmentSubs");
 
-                    b.Navigation("Attendences");
+                    b.Navigation("Attendances");
 
                     b.Navigation("Enrollments");
 

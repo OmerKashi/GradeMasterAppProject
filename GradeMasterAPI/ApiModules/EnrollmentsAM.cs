@@ -1,0 +1,9 @@
+﻿namespace GradeMasterAPI.ApiModules {
+    public class EnrollmentDTO {
+        public int Id { get; set; }
+        public int StudentId { get; set; }
+        public int CourseId { get; set; }
+        public DateTime EnrollmentDate { get; set; }
+        public int FinalGrade { get; set; }
+    }
+}

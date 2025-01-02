@@ -18,6 +18,10 @@ class CoursesApi {
     return axios.get(`${API_COURSES_URL}/byTeacher/${teacherId}`);
   }
 
+  getStudentsInCourse(id) {
+    return axios.get(`${API_COURSES_URL}/${id}/students`);
+  }
+
   //api/Courses/
   //body: Course JSON
   createCourse(Course) {

@@ -13,8 +13,15 @@ class StudentsApi {
     return axios.get(`${API_STUDENTS_URL}/${id}`);
   }
 
+  //api//Students/10
+  getStudentsLstByIds(ids) {
+    return axios.get(`${API_STUDENTS_URL}/StudentsList`, {
+      params: { ids: ids.join(",") },
+    });
+  }
+
   //api/Students/
-  //body: teacher JSON
+  //body: student JSON
   createStudent(student) {
     return axios.post(API_STUDENTS_URL, student);
   }

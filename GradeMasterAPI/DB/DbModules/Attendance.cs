@@ -1,5 +1,5 @@
 ﻿namespace GradeMasterAPI.DB.DbModules {
-    public class Attendence { //like classroom
+    public class Attendance { //like classroom
 
         public int Id { get; set; }
         public string RoomNum { get; set; }

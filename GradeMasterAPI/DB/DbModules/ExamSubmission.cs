@@ -7,7 +7,7 @@
         public int StudentId { get; set; }
         public DateTime SubmissionDate { get; set; }
         public int Grade { get; set; }
-        
+
 
 
         #region --Navigation Properties--

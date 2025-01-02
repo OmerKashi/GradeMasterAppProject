@@ -1,20 +1,15 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace GradeMasterAPI.Migrations
-{
+namespace GradeMasterAPI.Migrations {
     /// <inheritdoc />
-    public partial class V2 : Migration
-    {
+    public partial class V2 : Migration {
         /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.CreateTable(
                 name: "Assignment",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CourseId = table.Column<int>(type: "int", nullable: false),
@@ -22,8 +17,7 @@ namespace GradeMasterAPI.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Assignment", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Assignment_Courses_CourseId",
@@ -35,8 +29,7 @@ namespace GradeMasterAPI.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Attendence",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoomNum = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -47,8 +40,7 @@ namespace GradeMasterAPI.Migrations
                     StudentId = table.Column<int>(type: "int", nullable: false),
                     CourseId = table.Column<int>(type: "int", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Attendence", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Attendence_Courses_CourseId",
@@ -66,8 +58,7 @@ namespace GradeMasterAPI.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Enrollment",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StudentId = table.Column<int>(type: "int", nullable: false),
@@ -75,8 +66,7 @@ namespace GradeMasterAPI.Migrations
                     EnrollmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     FinalGrade = table.Column<int>(type: "int", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Enrollment", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Enrollment_Courses_CourseId",
@@ -94,8 +84,7 @@ namespace GradeMasterAPI.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Exam",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ExamName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -103,8 +92,7 @@ namespace GradeMasterAPI.Migrations
                     CourseId = table.Column<int>(type: "int", nullable: false),
                     RoomNum = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Exam", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Exam_Courses_CourseId",
@@ -116,8 +104,7 @@ namespace GradeMasterAPI.Migrations
 
             migrationBuilder.CreateTable(
                 name: "Grades",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StudentId = table.Column<int>(type: "int", nullable: false),
@@ -126,8 +113,7 @@ namespace GradeMasterAPI.Migrations
                     SubbmissionsGrades = table.Column<float>(type: "real", nullable: false),
                     Attendence = table.Column<float>(type: "real", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_Grades", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Grades_Courses_CourseId",
@@ -145,8 +131,7 @@ namespace GradeMasterAPI.Migrations
 
             migrationBuilder.CreateTable(
                 name: "AssignmentSubmission",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -156,8 +141,7 @@ namespace GradeMasterAPI.Migrations
                     Feedback = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Grade = table.Column<int>(type: "int", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_AssignmentSubmission", x => x.Id);
                     table.ForeignKey(
                         name: "FK_AssignmentSubmission_Assignment_AssignmentId",
@@ -175,8 +159,7 @@ namespace GradeMasterAPI.Migrations
 
             migrationBuilder.CreateTable(
                 name: "ExamSubmission",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ExamFilePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -185,8 +168,7 @@ namespace GradeMasterAPI.Migrations
                     SubmissionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Grade = table.Column<int>(type: "int", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_ExamSubmission", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ExamSubmission_Exam_ExamId",
@@ -264,8 +246,7 @@ namespace GradeMasterAPI.Migrations
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropTable(
                 name: "AssignmentSubmission");
 

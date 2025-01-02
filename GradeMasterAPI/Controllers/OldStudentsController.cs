@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GradeMasterAPI.ApiModules;
 using GradeMasterAPI.DB;
 using GradeMasterAPI.DB.DbModules;
-using System.Collections.Generic;
-using GradeMasterAPI.ApiModules;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GradeMasterAPI.Controllers {
     [Route("api/[controller]")]

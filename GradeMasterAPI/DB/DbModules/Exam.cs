@@ -12,7 +12,7 @@
 
         #region --Navigation Properties--
         public Course CourseRef { get; set; }
-        public ICollection<ExamSubmission> ExamSubmissions { get; set;} = new List<ExamSubmission>();
+        public ICollection<ExamSubmission> ExamSubmissions { get; set; } = new List<ExamSubmission>();
 
         #endregion
 
